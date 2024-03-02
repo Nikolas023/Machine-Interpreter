@@ -1,0 +1,97 @@
+; At each step will be instructions needed to be completed for that section to run
+; After your program runs succesfully, you can comment out the halt that relates
+; to that step and move on to the next step.
+; ./ path
+; .\ directory
+
+; Step 1: dout, nl, halt
+            add r0, r0, 1
+            dout r0         ; Display 1
+            nl
+            add r1, r0, 1
+            dout r1        ; Display 2
+            nl
+
+           ; halt            STEP 1 HALT
+
+; Step 2: br, ld, st
+            ld r2, x
+            br a1
+x:          .word 3
+a1:         dout r2         ; Display 3
+            nl
+            add r2, r2, 1
+            st r2, x         ; r2 is now 4
+            ld r0, x         ; r0 is 3
+            dout r0         ; Display 4
+            nl
+
+            ; halt             STEP 2 HALT
+
+; Step 3: brn, brp, brz
+            add r0, r0, -4      ; r0 is 0
+            add r1, r0, -1      
+            add r0, r0, 0       ; r0 is stil 0
+            brz z               ; this branch doesn't execute
+            dout r1         ; Print -1 **ERROR**
+            halt
+z:          add r0, r0, 1
+            brp p
+            dout r1         ; Print -1 **ERROR**
+            halt
+p:          add r0, r0, -2
+            brn n
+            dout r1         ; Print -1 **ERROR**
+            halt
+n:          ld r0, x
+            add r0, r0, 1
+            dout            ; Display 5
+            nl
+            ; halt            STEP 3 HALT
+
+; Step 4: ldr, str
+            lea r0, var1
+            ldr r3, r0, 1
+            add r3, r3, 2
+            lea r2, var2
+            str r3, r2, 0
+            ldr r2, r2, 0
+            dout r2         ; Display 6
+            nl
+           ; halt             STEP 4 HALT
+
+; Step 5: and, bl, blr
+            bl sub1
+            lea r0, abovesub2
+            blr r0, 1
+            ld r0, c31
+            ld r1, c9
+            and r2, r0, r1
+            dout r2         ; Display 9
+            nl
+            and r1, r0, 10
+            dout r1         ; Display 10
+            nl
+            halt             STEP 5 HALT
+
+; At this point, you should now be able to test using the full i1test.e
+
+sub1:       ld r0, c5
+            add r0, r0, 2
+            dout            ; Display 7
+            nl
+            ret
+
+abovesub2:  .word 0
+sub2:       ld r0, c7
+            add r0, r0, 1
+            dout            ; Display 8
+            nl
+            ret
+
+var1:       .word 6
+var2:       .word 4
+c5:         .word 5
+c7:         .word 7
+c31:        .word 31
+c9:         .word 9

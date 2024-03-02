@@ -1,0 +1,123 @@
+LCC Assemble/Link/Interpret/Debug Ver 6.0  Wed Feb 28 15:01:50 2024
+Nikolas Ayala
+
+Header
+o
+C
+
+Loc   Code           Source Code
+           ; At each step will be instructions needed to be complet
+           ; After your program runs succesfully, you can comment o
+           ; to that step and move on to the next step.
+           ; ./ path
+           ; .\ directory
+
+           ; Step 1: dout, nl, halt
+0000  1021             add r0, r0, 1
+0001  f002             dout r0         ; Display 1
+0002  f001             nl
+0003  1221             add r1, r0, 1
+0004  f202             dout r1        ; Display 2
+0005  f001             nl
+
+                      ; halt            STEP 1 HALT
+
+           ; Step 2: br, ld, st
+0006  2401             ld r2, x
+0007  0e01             br a1
+0008  0003 x:          .word 3
+0009  f402 a1:         dout r2         ; Display 3
+000a  f001             nl
+000b  14a1             add r2, r2, 1
+000c  35fb             st r2, x         ; r2 is now 4
+000d  21fa             ld r0, x         ; r0 is 3
+000e  f002             dout r0         ; Display 4
+000f  f001             nl
+
+                       ; halt             STEP 2 HALT
+
+           ; Step 3: brn, brp, brz
+0010  103c             add r0, r0, -4      ; r0 is 0
+0011  123f             add r1, r0, -1      
+0012  1020             add r0, r0, 0       ; r0 is stil 0
+0013  0002             brz z               ; this branch doesn't ex
+0014  f202             dout r1         ; Print -1 **ERROR**
+0015  f000             halt
+0016  1021 z:          add r0, r0, 1
+0017  0602             brp p
+0018  f202             dout r1         ; Print -1 **ERROR**
+0019  f000             halt
+001a  103e p:          add r0, r0, -2
+001b  0402             brn n
+001c  f202             dout r1         ; Print -1 **ERROR**
+001d  f000             halt
+001e  21e9 n:          ld r0, x
+001f  1021             add r0, r0, 1
+0020  f002             dout            ; Display 5
+0021  f001             nl
+                       ; halt            STEP 3 HALT
+
+           ; Step 4: ldr, str
+0022  e01e             lea r0, var1
+0023  6601             ldr r3, r0, 1
+0024  16e2             add r3, r3, 2
+0025  e41c             lea r2, var2
+0026  7680             str r3, r2, 0
+0027  6480             ldr r2, r2, 0
+0028  f402             dout r2         ; Display 6
+0029  f001             nl
+                      ; halt             STEP 4 HALT
+
+           ; Step 5: and, bl, blr
+002a  480b             bl sub1
+002b  e00f             lea r0, abovesub2
+002c  4001             blr r0, 1
+002d  2017             ld r0, c31
+002e  2217             ld r1, c9
+002f  5401             and r2, r0, r1
+0030  f402             dout r2         ; Display 9
+0031  f001             nl
+0032  522a             and r1, r0, 10
+0033  f202             dout r1         ; Display 10
+0034  f001             nl
+0035  f000             halt             STEP 5 HALT
+
+           ; At this point, you should now be able to test using th
+
+0036  200c sub1:       ld r0, c5
+0037  1022             add r0, r0, 2
+0038  f002             dout            ; Display 7
+0039  f001             nl
+003a  c1c0             ret
+
+003b  0000 abovesub2:  .word 0
+003c  2007 sub2:       ld r0, c7
+003d  1021             add r0, r0, 1
+003e  f002             dout            ; Display 8
+003f  f001             nl
+0040  c1c0             ret
+
+0041  0006 var1:       .word 6
+0042  0004 var2:       .word 4
+0043  0005 c5:         .word 5
+0044  0007 c7:         .word 7
+0045  001f c31:        .word 31
+0046  0009 c9:         .word 9
+====================================================== Output
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+========================================== Program statistics
+Input file name       =      .\i1_Project\i1aid.a
+Instructions executed =   39 (hex)    57 (dec)
+Program size          =   47 (hex)    71 (dec)
+Max stack size        =    0 (hex)     0 (dec)
+Load point            =    0 (hex)     0 (dec)
