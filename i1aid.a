@@ -12,8 +12,6 @@
             dout r1        ; Display 2
             nl
 
-           ; halt            STEP 1 HALT
-
 ; Step 2: br, ld, st
             ld r2, x
             br a1
@@ -25,8 +23,6 @@ a1:         dout r2         ; Display 3
             ld r0, x         ; r0 is 3
             dout r0         ; Display 4
             nl
-
-            ; halt             STEP 2 HALT
 
 ; Step 3: brn, brp, brz
             add r0, r0, -4      ; r0 is 0
@@ -47,7 +43,6 @@ n:          ld r0, x
             add r0, r0, 1
             dout            ; Display 5
             nl
-            ; halt            STEP 3 HALT
 
 ; Step 4: ldr, str
             lea r0, var1
@@ -58,7 +53,6 @@ n:          ld r0, x
             ldr r2, r2, 0
             dout r2         ; Display 6
             nl
-           ; halt             STEP 4 HALT
 
 ; Step 5: and, bl, blr
             bl sub1
@@ -72,9 +66,7 @@ n:          ld r0, x
             and r1, r0, 10
             dout r1         ; Display 10
             nl
-            halt             STEP 5 HALT
-
-; At this point, you should now be able to test using the full i1test.e
+            halt            
 
 sub1:       ld r0, c5
             add r0, r0, 2
